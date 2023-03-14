@@ -15,10 +15,11 @@ const displayRoomsData = async (rooms) => {
   roomsContainer.innerHTML=''
   rooms.forEach((room) => {
     const { name, summary, property_type, images,number_of_reviews,price,_id } = room;
+    // console.log(room.number_of_reviews)
     roomsContainer.innerHTML += `
  <div class="col">
  <div class="card h-100">
-   <img src=${images.picture_Url} class="card-img-top " alt="..." style=" height: 300px;
+   <img src=${images.picture_url} class="card-img-top " alt="..." style=" height: 300px;
    object-fit: fill;">
    <div class="card-body">
      <h5 class="card-title">${name}</h5>
@@ -42,11 +43,13 @@ const displayRoomsData = async (rooms) => {
 
 const range = document.getElementById("review-range");
 range.addEventListener("input", () => {
-  const value = range.Value;
+  const value = range.value;
+  // console.log(allRooms)
 
   document.getElementById('review-count').innerText = value
-  const filteredData= allRooms.filter( r.number_of_reviews >= value)
-  displayRoomsData(allRooms) 
+  const filteredData= allRooms.filter(r => r.number_of_reviews >= value)
+  // console.log(r)
+  displayRoomsData(filteredData) 
 });
 
 
@@ -54,8 +57,10 @@ range.addEventListener("input", () => {
 
 
 document.getElementById('sort-by-price-btn').addEventListener('click', () =>{
-     allRooms.sort((a,b)=>{
-        return parseFloat(a.price) < parseFloat(b.price)  ? 1: -1
+  allRooms.sort((a,b)=>{
+      // console.log(price)
+      // console.log(allRooms[0].price)
+        return parseFloat(a.price.$numberDecimal) > parseFloat(b.price.$numberDecimal)  ? 1: -1
     })
     // console.log(allRooms)
     displayRoomsData(allRooms)
